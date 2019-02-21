@@ -1,0 +1,37 @@
+{% load static %}
+<html>
+    <head>
+        <title>{% block title %}Tugcan Olgun {% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {% block head %}
+            <link rel="stylesheet" href="{% static 'blog/css/blog.css' %}" />
+            <link rel="stylesheet" href="{% static 'blog/css/default.css' %}" />
+            <!-- <link rel="stylesheet" href="/path/to/styles/default.css"> -->
+            <script src="{% static 'blog/js/highlight.pack.js' %}"></script>
+            <script>
+                // hljs.initHighlightingOnLoad(); 
+                document.addEventListener('DOMContentLoaded', (event) => {
+                document.querySelectorAll('pre').forEach((block) => {
+                    hljs.highlightBlock(block);
+                });
+                });
+            </script>
+        {% endblock %}
+    </head>
+    <body>
+        <!-- <div style="float: right; margin-top: 0;"> -->
+        <div style="border-bottom: 1px solid black;">
+        <a style="text-decoration: none;" href="{% url 'blog:index' %}">Home</a> - 
+        <a style="text-decoration: none;" href="{% url 'blog:categories' %}">Categories</a>
+            {% load static_tags %}
+            {% all_statics as statics %}
+            {% for static in statics %}
+                 - <a style="text-decoration: none;" href="{% url 'blog:static' static.id %}">{{ static.title }}</a>
+            {% endfor %}
+        </div>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

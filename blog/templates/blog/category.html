@@ -1,0 +1,10 @@
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }}{% endblock %}
+{% block content %}
+    <h1>All entries of {{ category.name }}</h1>
+    {% for post in posts %}
+        <h5><a href="{% url 'blog:preview' post.id %}">{{ post.title }}</a></h5>
+    {% endfor %}
+{% endblock %}

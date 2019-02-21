@@ -1,0 +1,9 @@
+{% extends "panel/base.html" %}
+
+{% block content %}
+    <a href="{% url 'panel:categories_add' %}" class="btn btn-primary">Add category</a>
+    <h2>Categories</h2>
+    {% for category in object_list %}
+        <h3><a href="{% url 'panel:categories_delete' category.id %}">x</a> <a href="{% url 'panel:categories_update' category.id %}">edit</a> {{ category.name }}</h3>
+    {% endfor %}
+{% endblock %}

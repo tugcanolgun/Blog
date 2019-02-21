@@ -1,0 +1,70 @@
+{% extends 'panel/base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% include "panel/helpers/message.html" %}
+{% load panel_tags %}
+{% all_categories as categories %}
+{% if categories|length == 0 %}
+    <h3>You need to add a category first</h3>
+{% else %}
+    {% if category %}
+    <a href="{% url 'panel:post_create' category.id %}" class="btn btn-primary">New article</a>
+    {% endif %}
+{% endif %}
+
+
+<button data-whatever="Add category" style="margin: 0.5em;" type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModal">
+    Add new category
+</button>
+<table class="table">
+  <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Updated</th>
+            {% if not category %}
+            <th scope="col">Category</th>
+            {% endif %}
+            <th scope="col">Delete</th>
+        </tr>
+  </thead>
+  <tbody>
+        {% if posts %}
+        {% for post in posts %}
+        {% url 'panel:post_delete' post.id as link %}
+        <tr>
+            <td scope="col">
+                {% if post.title == 'Enter a title --' %}
+                <a href="{% url 'panel:post_edit' post.id %}">{{ post.title }}</a> <i>(Empty)</i>
+                {% else %}
+                <a href="{% url 'panel:post_edit' post.id %}">{{ post.title }}</a>
+                {% endif %}
+            </td>
+            <td scope="col">{{ post.updated_at|date:'d/m/Y' }}</td>
+            {% if not category %}
+            <td scope="col">{{ post.category }}</td>
+            {% endif %}
+            <td scope="col">
+                <button  onclick="changeBody('{{ post.title }}', '{{ link }}')" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >
+                <span style="color: #fff"><i class="far fa-trash-alt"></i></span>
+            </button></p>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+        {% else %}
+    </tbody>
+</table>
+            <h2>No posts to show</h2>
+            {% if category %}
+            {% url 'panel:category_delete' category.id as link %}
+            <button  onclick="changeBody('{{ category.name }}', '{{ link }}')" class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" >
+            <span style="color: #fff"><i class="far fa-trash-alt"></i> Delete the category</span>
+            </button>
+            {% endif %}
+        {% endif %}
+{% include "panel/helpers/modal.html" %}
+{% include "panel/helpers/form_modal.html" %}
+{% endblock %}

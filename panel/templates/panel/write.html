@@ -1,0 +1,37 @@
+{% extends 'panel/base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-3 order-lg-2">
+            {% include "panel/helpers/message.html" %}
+            <form action="{% url 'panel:post_edit' post.id %}" method="post">
+                {% load crispy_forms_tags %}
+                {% csrf_token %}
+                {{ form|crispy }}
+                <div class="row">
+                    <div class="col">
+                        <input type="submit" class="btn btn-primary" value="Save">
+                    </div>
+                    <div class="col text-right">
+                        <a href="{% url 'blog:preview' post.id %}" target="_blank" class="btn btn-outline-secondary">Preview</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-9 order-lg-1">
+            <div id="editor">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+{{ block.super }}
+<script src="{% static 'blog/js/quill-editor.js' %}"></script>
+<script src="{% static 'blog/js/QuillDeltaToHtmlConverter.bundle.js' %}"></script>
+{% endblock %}
+
+

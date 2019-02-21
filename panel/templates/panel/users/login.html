@@ -1,0 +1,27 @@
+{% extends "panel/base.html" %}
+{% block content %}
+
+<div style="margin: 15px auto; max-width: 400px;">
+{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{% if next %}
+    {% if user.is_authenticated %}
+    <p>Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.</p>
+    {% else %}
+    <p>Please login to see this page.</p>
+    {% endif %}
+{% endif %}
+
+<form method="post" action="{% url 'login' %}">
+{% load crispy_forms_tags %}
+{% csrf_token %}
+{{ form|crispy }}
+
+<input type="submit" class="btn btn-primary" value="Login">
+<input type="hidden" name="next" value="{{ next }}">
+</form>
+</div>
+{% endblock %}
