@@ -38,15 +38,19 @@ def category(request, pk=None):
 
 
 def preview(request, pk=None):
-    print("View is requested", pk)
     obj = get_object_or_404(Content, id=pk)
     content = {'post': obj}
     return render(request, 'blog/view.html', content)
 
 
+def view(request, pk=None):
+    obj = get_object_or_404(Content, slug=pk)
+    content = {'post': obj}
+    return render(request, 'blog/view.html', content)
+
+
 def static(request, pk=None):
-    print("Static is requested", pk)
-    obj = get_object_or_404(Static, id=pk)
+    obj = get_object_or_404(Static, slug=pk)
     content = {'post': obj}
     return render(request, 'blog/view.html', content)
 

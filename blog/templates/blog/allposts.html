@@ -7,7 +7,7 @@
     {% for cat, posts in content.items %}
         <h1>{{ cat }}</h1>
             {% for post in posts %}
-                <li><a href="{% url 'blog:preview' post.id %}">{{ post.title }}</a></li>
+                <li><a href="{% url 'blog:view' post.slug %}">{{ post.title }}</a></li>
             {% endfor %}
     {% endfor %}
 {% endblock %}

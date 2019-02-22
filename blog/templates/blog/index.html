@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block content %}
-    <a style="text-decoration: none;" href="{% url 'blog:preview' posts.0.id %}"><h1>{{ posts.0.title }}</h1></a>
+    <a style="text-decoration: none;" href="{% url 'blog:view' posts.0.slug %}"><h1>{{ posts.0.title }}</h1></a>
     {% autoescape off %}
         {{ posts.0.body }}
     {% endautoescape %}
 
     <h1>Last 3 entries</h1>
     {% for post in posts %}
-        <h5><a href="{% url 'blog:preview' post.id %}">{{ post.title }}</a></h5>
+        <h5><a href="{% url 'blog:view' post.slug %}">{{ post.title }}</a></h5>
     {% endfor %}
 {% endblock %}

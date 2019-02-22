@@ -36,7 +36,7 @@ else:
         f.write(SECRET_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG: bool = False
+DEBUG: bool = True
 
 ALLOWED_HOSTS: list = ["tugcan.net", "127.0.0.1"]
 

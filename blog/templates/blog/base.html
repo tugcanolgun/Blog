@@ -30,7 +30,7 @@
             {% load static_tags %}
             {% all_statics as statics %}
             {% for static in statics %}
-                 - <a style="text-decoration: none;" href="{% url 'blog:static' static.id %}">{{ static.title }}</a>
+                 - <a style="text-decoration: none;" href="{% url 'blog:static' static.slug %}">{{ static.title }}</a>
             {% endfor %}
         </div>
         <div class="content">
