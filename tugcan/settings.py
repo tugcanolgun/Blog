@@ -17,7 +17,11 @@ from pathlib import Path
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Used for static files and .sock file for gunicorn. Do not use space or special characters
 APP_NAME: str = "tugcan"
+
+# Change this for your own display name
+DISPLAY_NAME: str = "Tugcan Olgun"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -32,7 +36,7 @@ else:
         f.write(SECRET_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG: bool = True
+DEBUG: bool = False
 
 ALLOWED_HOSTS: list = ["tugcan.net", "127.0.0.1"]
 

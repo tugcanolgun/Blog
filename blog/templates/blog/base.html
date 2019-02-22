@@ -1,7 +1,9 @@
 {% load static %}
 <html>
     <head>
-        <title>{% block title %}Tugcan Olgun {% endblock %}</title>
+        {% load panel_tags %}
+        {% blog_name as name %}
+        <title>{% block title %}{% endblock %}{{ name }}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 

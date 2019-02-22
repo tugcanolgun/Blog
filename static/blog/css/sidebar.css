@@ -2,9 +2,11 @@
     DEMO STYLE
 */
 
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+/* @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"; */
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700|Lora|Playfair+Display:700i,900');
 #sidebar {
-    font-family: 'Poppins', sans-serif;
+    /* font-family: 'Poppins', sans-serif; */
+    font-family: "Lato", serif;
     background: #fafafa;
 }
 
@@ -59,7 +61,8 @@ a:focus {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #7386D5;
+    /* background: #7386D5; */
+    background: rgb(82, 82, 82);
     color: #fff;
     transition: all 0.3s;
 }
@@ -85,8 +88,10 @@ a:focus {
 }
 
 #sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
+    color: rgb(82, 82, 82);
+    background: #FFFFFF;
+    /* color: #7386D5; */
+    /* background: #fff; */
 }
 
 #sidebar ul li.active>a,
@@ -140,11 +145,60 @@ a.article:hover {
     CONTENT STYLE
 ----------------------------------------------------- */
 
+.content input,
+.content button {
+    font-size: 21px;
+}
+.content a {
+    font-size: 21px;
+    color: rgb(70, 66, 99);
+}
+.content a:hover {
+    color: rgb(106, 99, 153);
+}
+
+.content .btn-primary {
+    color: #FFFFFF;
+    background: rgb(82, 82, 82);
+    border: none;
+}
+.content .btn-primary:hover {
+    color: #FFFFFF;
+    background: rgb(112, 112, 112);
+    border: none;
+}
+
+.content .btn.btn-primary.active.focus,
+.content .btn.btn-primary.active,
+.content .btn.btn-primary.focus,
+.content .btn.btn-primary:active:focus,
+.content .btn.btn-primary:focus,
+.content .btn.btn-primary:active {
+    background: rgb(212, 212, 212);
+    color: rgb(82, 82, 82);
+    border: none;
+}
+.content .btn-info {
+    background: rgb(133, 133, 133);
+    border: none;
+}
+.content .btn-info:hover {
+    background: rgb(167, 167, 167);
+    border: none;
+}
+.content .btn-danger,
+.content .btn-danger:hover {
+    border: none;
+    color: #FFFFFF;
+}
+
 .content {
     width: 100%;
     padding: 20px;
     min-height: 100vh;
     transition: all 0.3s;
+    font-family: "Lora", serif;
+    font-size: 21px;
 }
    @media screen and (max-width:1166px) {
         .content{ padding:20px;}
@@ -175,8 +229,8 @@ a.article:hover {
 }
 
 .navbar-header {
-    /* background: #7386D5; */
-    background: #6d7fcc;
+    /* background: #6d7fcc; */
+    background: rgb(82, 82, 82);
     min-height: 2em;
     max-height: 2em;
 }
@@ -186,7 +240,7 @@ a.article:hover {
 .sidebar-header {
     min-height: 2em;
     max-height: 2em;
-    background: #6d7fcc;
+    background: rgb(82, 82, 82);
     padding-left: 0.5em;
 }
 

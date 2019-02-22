@@ -1,7 +1,9 @@
 {% load static %}
 <html>
 <head>
-    <title>{% block title %}Tugcan Panel{% endblock %}</title>
+    {% load panel_tags %}
+    {% blog_name as name %}
+    <title>{% block title %}{{ name }} Panel{% endblock %}</title>
     {% block head %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,7 +22,7 @@
     <!-- Sidebar -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3><a href="/">Tugcan</a></h3>
+            <h3><a href="/">{{ name }}</a></h3>
         </div>
         <ul class="list-unstyled components">
             <li class="active">
@@ -33,7 +35,6 @@
             </li>
             <li><a href="{% url 'panel:statics' %}">Statics</a></li>
             <hr style="background-color: white;" />
-            {% load panel_tags %}
             {% all_categories as categories %}
             {% if categories|length < 5 %}
             <li><h5 style="padding: 10px;">Categories</h5></li>
