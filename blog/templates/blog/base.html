@@ -24,14 +24,16 @@
         <!-- <div style="float: right; margin-top: 0;"> -->
         <div style="border-bottom: 1px solid black;">
         <a style="text-decoration: none;" href="{% url 'blog:index' %}">Home</a> - 
-        <a style="text-decoration: none;" href="{% url 'blog:categories' %}">Categories</a>
+        <a style="text-decoration: none;" href="{% url 'blog:allposts' %}">All posts</a>
             {% load static_tags %}
             {% all_statics as statics %}
             {% for static in statics %}
                  - <a style="text-decoration: none;" href="{% url 'blog:static' static.id %}">{{ static.title }}</a>
             {% endfor %}
         </div>
-        {% block content %}
-        {% endblock %}
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
     </body>
 </html>

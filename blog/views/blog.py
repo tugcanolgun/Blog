@@ -11,12 +11,20 @@ def index(request):
     return render(request, 'blog/index.html', content)
 
 
-def categories(request):
-    categories = Categories.objects.all()
+def allposts(request):
+    # categories = Categories.objects.all()
+    cont: dict = {}
+    posts = Content.objects.order_by('-updated_at', 'category').filter(published=True).all()
+    for post in posts:
+        if post.category not in cont:
+            cont[post.category] = []
+        cont[post.category].append(post)
     content = {
-        'categories': categories,
+        # 'categories': categories,
+        # 'posts': posts
+        'content': cont
         }
-    return render(request, 'blog/categories.html', content)
+    return render(request, 'blog/allposts.html', content)
 
 
 def category(request, pk=None):

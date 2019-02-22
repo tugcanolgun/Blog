@@ -4,6 +4,13 @@
 {% block title %}{{ post.title }}{% endblock %}
 {% block content %}
     <h1>{{ post.title }}</h1>
+    <div id="date">
+    {% if post.is_updated %}
+        {{ post.created_at|date:"d M Y" }}
+    {% else %}
+        {{ post.updated_at|date:"d M Y" }} - Updated: <u>{{ post.updated_at|date:"d M Y" }}</u>
+    {% endif %}
+    </div>
     {% autoescape off %}
         {{ post.body }}
     {% endautoescape %}

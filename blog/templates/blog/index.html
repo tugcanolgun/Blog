@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-    <h1>{{ posts.0.title }}</h1>
+    <a style="text-decoration: none;" href="{% url 'blog:preview' posts.0.id %}"><h1>{{ posts.0.title }}</h1></a>
     {% autoescape off %}
         {{ posts.0.body }}
     {% endautoescape %}

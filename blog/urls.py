@@ -8,5 +8,5 @@ urlpatterns = [
     path('view/<uuid:pk>', views.preview, name='preview'),
     path('s/<uuid:pk>', views.blog.static, name='static'),
     path('category/<uuid:pk>', views.category, name='category'),
-    path('categories', views.categories, name='categories'),
+    path('all', views.allposts, name='allposts'),
 ]

@@ -38,6 +38,11 @@ class Content(models.Model):
     @property
     def is_published_today(self):
         return datetime.date.today == self.created_at
+    
+    @property
+    def is_updated(self):
+        print(self.created_at, self.updated_at, type(self.updated_at), self.updated_at.date())
+        return self.created_at.date() == self.updated_at.date()
 
 
 class Tags(models.Model):
