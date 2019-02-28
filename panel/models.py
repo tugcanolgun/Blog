@@ -11,7 +11,7 @@ class Categories(models.Model):
     slug = models.SlugField(default=uuid.uuid4)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title + "-" + str(self.id)[0:2])
+        self.slug = slugify(self.name + "-" + str(self.id)[0:2])
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -54,7 +54,7 @@ class Content(models.Model):
     @property
     def is_published_today(self):
         return datetime.date.today == self.created_at
-    
+
     @property
     def is_updated(self):
         print(self.created_at, self.updated_at, type(self.updated_at), self.updated_at.date())
