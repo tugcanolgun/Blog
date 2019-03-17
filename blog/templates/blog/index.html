@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+{% if posts %}
     <a style="text-decoration: none;" href="{% url 'blog:view' posts.0.slug %}"><h1>{{ posts.0.title }}</h1></a>
     {% autoescape off %}
         {{ posts.0.body }}
@@ -11,4 +12,8 @@
     {% for post in posts %}
         <h5><a href="{% url 'blog:view' post.slug %}">{{ post.title }}</a></h5>
     {% endfor %}
+{% else %}
+    <h1>No posts</h1>
+    <p>You can add new categories and posts or static pages in the <a href="panel">panel</a></p>
+{% endif %}
 {% endblock %}

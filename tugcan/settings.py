@@ -26,7 +26,7 @@ DISPLAY_NAME: str = "Tugcan Olgun"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-SECRET_FILE = Path() / ".env" / ".secret"
+SECRET_FILE = Path(str(os.environ.get("VIRTUAL_ENV"))) / ".secret"
 if SECRET_FILE.is_file():
     with open(SECRET_FILE, "r") as f:
         SECRET_KEY = f.read()
@@ -36,8 +36,9 @@ else:
         f.write(SECRET_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG: bool = True
+DEBUG: bool = False
 
+# Change the access domain here
 ALLOWED_HOSTS: list = ["tugcan.net", "127.0.0.1"]
 
 LOGOUT_REDIRECT_URL = '/panel'

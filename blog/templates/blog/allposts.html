@@ -3,6 +3,7 @@
 
 {% block title %}Categories - {% endblock %}
 {% block content %}
+{% if content %}
     <!-- <h1>All posts</h1> -->
     {% for cat, posts in content.items %}
         <h1>{{ cat }}</h1>
@@ -10,4 +11,7 @@
                 <li><a href="{% url 'blog:view' post.slug %}">{{ post.title }}</a></li>
             {% endfor %}
     {% endfor %}
+{% else %}
+    <p>You can add new categories and posts or static pages in the <a href="panel">panel</a></p>
+{% endif %}
 {% endblock %}
