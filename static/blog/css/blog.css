@@ -9,6 +9,12 @@ body {
   margin:5px auto 40px;
 }
 
+br {
+  display: block; /* makes it have a width */
+  content: ""; /* clears default height */
+  margin-top: 20; /* change this to whatever height you want it */
+}
+
 h1,
 h2,
 p,
