@@ -5,24 +5,22 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('panel', '0002_auto_20190108_1811'),
-    ]
+    dependencies = [("panel", "0002_auto_20190108_1811")]
 
     operations = [
         migrations.AlterField(
-            model_name='content',
-            name='body',
-            field=models.TextField(default='', null=True),
+            model_name="content",
+            name="body",
+            field=models.TextField(default="", null=True),
         ),
         migrations.AlterField(
-            model_name='content',
-            name='created_at',
-            field=models.DateTimeField(verbose_name='date published'),
+            model_name="content",
+            name="created_at",
+            field=models.DateTimeField(verbose_name="date published"),
         ),
         migrations.AlterField(
-            model_name='content',
-            name='updated_at',
-            field=models.DateTimeField(auto_now=True, verbose_name='date updated'),
+            model_name="content",
+            name="updated_at",
+            field=models.DateTimeField(auto_now=True, verbose_name="date updated"),
         ),
     ]

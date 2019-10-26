@@ -8,19 +8,26 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Content',
+            name="Content",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, primary_key=True, serialize=False)),
-                ('title', models.CharField(max_length=50)),
-                ('body', models.TextField()),
-                ('published', models.BooleanField(default=False)),
-                ('created_at', models.DateField(verbose_name='date published')),
-                ('updated_at', models.DateField(auto_now=True, verbose_name='date updated')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4, primary_key=True, serialize=False
+                    ),
+                ),
+                ("title", models.CharField(max_length=50)),
+                ("body", models.TextField()),
+                ("published", models.BooleanField(default=False)),
+                ("created_at", models.DateField(verbose_name="date published")),
+                (
+                    "updated_at",
+                    models.DateField(auto_now=True, verbose_name="date updated"),
+                ),
             ],
-        ),
+        )
     ]

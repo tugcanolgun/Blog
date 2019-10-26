@@ -6,14 +6,12 @@ import uuid
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('panel', '0004_static'),
-    ]
+    dependencies = [("panel", "0004_static")]
 
     operations = [
         migrations.AddField(
-            model_name='content',
-            name='slug',
+            model_name="content",
+            name="slug",
             field=models.SlugField(default=uuid.uuid4),
-        ),
+        )
     ]

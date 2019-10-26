@@ -4,10 +4,12 @@ from django.conf import settings
 
 register = template.Library()
 
+
 @register.simple_tag()
 def all_statics():
     context = Static.objects.all()
     return context
+
 
 @register.simple_tag()
 def blog_name():

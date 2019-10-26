@@ -7,42 +7,72 @@ import uuid
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('panel', '0001_initial'),
-    ]
+    dependencies = [("panel", "0001_initial")]
 
     operations = [
         migrations.CreateModel(
-            name='Categories',
+            name="Categories",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=50)),
-                ('created_at', models.DateField(auto_now=True, verbose_name='date created')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4, primary_key=True, serialize=False
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                (
+                    "created_at",
+                    models.DateField(auto_now=True, verbose_name="date created"),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='ContentTags',
+            name="ContentTags",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, primary_key=True, serialize=False)),
-                ('content', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='panel.Content')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4, primary_key=True, serialize=False
+                    ),
+                ),
+                (
+                    "content",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="panel.Content"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Tags',
+            name="Tags",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, primary_key=True, serialize=False)),
-                ('name', models.CharField(max_length=50)),
-                ('created_at', models.DateField(auto_now=True, verbose_name='date created')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4, primary_key=True, serialize=False
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
+                (
+                    "created_at",
+                    models.DateField(auto_now=True, verbose_name="date created"),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='contenttags',
-            name='tag',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='panel.Tags'),
+            model_name="contenttags",
+            name="tag",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="panel.Tags"
+            ),
         ),
         migrations.AddField(
-            model_name='content',
-            name='category',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='panel.Categories'),
+            model_name="content",
+            name="category",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="panel.Categories",
+            ),
         ),
     ]

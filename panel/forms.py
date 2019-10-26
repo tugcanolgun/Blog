@@ -10,16 +10,14 @@ class BlogForm(forms.ModelForm):
 
     class Meta:
         model = Content
-        fields = ('title', 'body', 'category', 'published')
-        widgets = {
-            'body': forms.HiddenInput()
-            }
+        fields = ("title", "body", "category", "published")
+        widgets = {"body": forms.HiddenInput()}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
-        self.helper.form_method = 'post'
-        self.fields['body'].required = False
+        self.helper.form_method = "post"
+        self.fields["body"].required = False
         # self.fields['category'].required = False
         # self.helper.form_action = reverse('panel:category_add')
         # self.helper.add_input(Submit('submit', 'Save'))
@@ -28,14 +26,14 @@ class BlogForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Categories
-        fields = ('name', )
+        fields = ("name",)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
-        self.helper.form_method = 'post'
-        self.helper.form_action = reverse('panel:category_add')
-        self.helper.add_input(Submit('submit', 'Save Category'))
+        self.helper.form_method = "post"
+        self.helper.form_action = reverse("panel:category_add")
+        self.helper.add_input(Submit("submit", "Save Category"))
 
 
 class StaticForm(forms.ModelForm):
@@ -43,16 +41,14 @@ class StaticForm(forms.ModelForm):
 
     class Meta:
         model = Content
-        fields = ('title', 'body',)
-        widgets = {
-            'body': forms.HiddenInput()
-            }
+        fields = ("title", "body")
+        widgets = {"body": forms.HiddenInput()}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
-        self.helper.form_method = 'post'
-        self.fields['body'].required = False
+        self.helper.form_method = "post"
+        self.fields["body"].required = False
         # self.fields['category'].required = False
         # self.helper.form_action = reverse('panel:category_add')
         # self.helper.add_input(Submit('submit', 'Save'))

@@ -6,19 +6,25 @@ import uuid
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('panel', '0003_auto_20190111_2140'),
-    ]
+    dependencies = [("panel", "0003_auto_20190111_2140")]
 
     operations = [
         migrations.CreateModel(
-            name='Static',
+            name="Static",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, primary_key=True, serialize=False)),
-                ('title', models.CharField(max_length=50)),
-                ('body', models.TextField(default='', null=True)),
-                ('created_at', models.DateTimeField(verbose_name='date published')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='date updated')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4, primary_key=True, serialize=False
+                    ),
+                ),
+                ("title", models.CharField(max_length=50)),
+                ("body", models.TextField(default="", null=True)),
+                ("created_at", models.DateTimeField(verbose_name="date published")),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="date updated"),
+                ),
             ],
-        ),
+        )
     ]

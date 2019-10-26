@@ -1,5 +1,5 @@
-Django==2.1.4
-django-crispy-forms==1.7.2
+Django==2.2.6
+django-crispy-forms==1.8.0
 flake8==3.6.0
 gunicorn==19.9.0
 mccabe==0.6.1
