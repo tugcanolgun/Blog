@@ -11,6 +11,7 @@ class Categories(models.Model):
     name = models.CharField(max_length=50, null=False)
     created_at = models.DateField("date created", auto_now=True)
     slug = models.SlugField(default=uuid.uuid4)
+    is_static_url = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         def generate_slug(name: str) -> bool:
@@ -18,11 +19,12 @@ class Categories(models.Model):
                 return True
             return False
 
-        name: str = slugify(self.name)
-        while generate_slug(name=name):
-            name = slugify(self.name + "-" + random.choice(string.ascii_letters))
+        if self.slug is None or not self.is_static_url:
+            name: str = slugify(self.name)
+            while generate_slug(name=name):
+                name = slugify(self.name + "-" + random.choice(string.ascii_letters))
 
-        self.slug = name
+            self.slug = name
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -36,6 +38,7 @@ class Static(models.Model):
     created_at = models.DateTimeField("date published")
     updated_at = models.DateTimeField("date updated", auto_now=True)
     slug = models.SlugField(default=uuid.uuid4)
+    is_static_url = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         def generate_slug(title: str) -> bool:
@@ -43,11 +46,12 @@ class Static(models.Model):
                 return True
             return False
 
-        title: str = slugify(self.title)
-        while generate_slug(title=title):
-            title = slugify(self.title + "-" + random.choice(string.ascii_letters))
+        if self.slug is None or not self.is_static_url:
+            title: str = slugify(self.title)
+            while generate_slug(title=title):
+                title = slugify(self.title + "-" + random.choice(string.ascii_letters))
 
-        self.slug = title
+            self.slug = title
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -63,6 +67,7 @@ class Content(models.Model):
     created_at = models.DateTimeField("date published")
     updated_at = models.DateTimeField("date updated", auto_now=True)
     slug = models.SlugField(default=uuid.uuid4)
+    is_static_url = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         def generate_slug(title: str) -> bool:
@@ -70,11 +75,12 @@ class Content(models.Model):
                 return True
             return False
 
-        title: str = slugify(self.title)
-        while generate_slug(title=title):
-            title = slugify(self.title + "-" + random.choice(string.ascii_letters))
+        if self.slug is None or not self.is_static_url:
+            title: str = slugify(self.title)
+            while generate_slug(title=title):
+                title = slugify(self.title + "-" + random.choice(string.ascii_letters))
 
-        self.slug = title
+            self.slug = title
         super().save(*args, **kwargs)
 
     def __str__(self):

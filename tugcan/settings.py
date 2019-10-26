@@ -26,7 +26,8 @@ DISPLAY_NAME: str = "Tugcan Olgun"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-SECRET_FILE = Path(str(os.environ.get("VIRTUAL_ENV"))) / ".secret"
+SECRET_FOLDER = Path() / ".env"
+SECRET_FILE = SECRET_FOLDER / ".secret"
 if SECRET_FILE.is_file():
     with open(SECRET_FILE, "r") as f:
         SECRET_KEY = f.read()
@@ -39,6 +40,7 @@ else:
             for i in range(50)
         ]
     )
+    SECRET_FOLDER.mkdir(exist_ok=True)
     with open(SECRET_FILE, "w") as f:
         f.write(SECRET_KEY)
 

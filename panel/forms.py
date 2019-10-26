@@ -10,7 +10,7 @@ class BlogForm(forms.ModelForm):
 
     class Meta:
         model = Content
-        fields = ("title", "body", "category", "published")
+        fields = ("title", "slug", "is_static_url", "body", "category", "published")
         widgets = {"body": forms.HiddenInput()}
 
     def __init__(self, *args, **kwargs):
@@ -26,7 +26,7 @@ class BlogForm(forms.ModelForm):
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Categories
-        fields = ("name",)
+        fields = ("name", "slug", "is_static_url")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -41,7 +41,7 @@ class StaticForm(forms.ModelForm):
 
     class Meta:
         model = Content
-        fields = ("title", "body")
+        fields = ("title", "slug", "is_static_url", "body")
         widgets = {"body": forms.HiddenInput()}
 
     def __init__(self, *args, **kwargs):

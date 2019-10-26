@@ -19,5 +19,4 @@ urlpatterns = [
     path("category/delete/<uuid:pk>", views.category_delete, name="category_delete"),
     path("category/<uuid:pk>", views.category, name="category"),
     path("statics", views.statics, name="statics"),
-    # path('categories/update/<uuid:pk>', views.CategoriesUpdate.as_view(), name='categories_update'),
 ]
