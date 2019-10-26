@@ -14,7 +14,7 @@ def allposts(request):
     # categories = Categories.objects.all()
     cont: dict = {}
     posts = (
-        Content.objects.order_by("-updated_at", "category").filter(published=True).all()
+        Content.objects.order_by("-created_at", "category").filter(published=True).all()
     )
     for post in posts:
         if post.category not in cont:
