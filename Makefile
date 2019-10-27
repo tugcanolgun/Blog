@@ -1,10 +1,14 @@
+.ONESHELL:
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+VENV:=${ROOT_DIR}/venv/bin
 
 default:
 	@echo "Available commands"
 	@echo "'lint'"
 	@echo "'fix'"
 	@echo "'run'"
+	@echo "'test'"
+	@echo "'install'"
 
 check_venv:
 	@if [ -a ${ROOT_DIR}/venv/bin/activate ]; \
@@ -14,26 +18,34 @@ check_venv:
 		echo "Virtualenv could not be found. Initiating..." && \
 		python3 -m venv ${ROOT_DIR}/venv && \
 		echo "Activating the virtualenv..." && \
-		. ${ROOT_DIR}/venv/bin/activate && echo "Installing the dependencies..." && \
-		pip install -r requirements.txt && \
+		. ${VENV}/activate && echo "Installing the dependencies..." && \
+		pip install -r ${ROOT_DIR}/requirements/dev.txt && \
 		echo "Installation complete. Disabling the virtualenv for consistency..." && \
+		deactivate && \
 		echo "Resuming normal operation"; \
 	fi;
 
+install: check_venv
+	@echo "Installation is complete"
+
 activate: check_venv
 	@echo "Activating virtualenv"
-	@. ${ROOT_DIR}/venv/bin/activate
+	@. ${VENV}/activate;
 
 lint: activate
 	@echo "Running linter"
-	@flake8 --exclude venv,__init__.py --max-line-length=100 ${ROOT_DIR}
+	@${VENV}/flake8 --exclude venv,__init__.py --max-line-length=100 ${ROOT_DIR}
 	@echo "Linter process ended"
 
 fix: activate
 	@echo "Running syntax fixer"
-	@black --exclude venv ${ROOT_DIR}
+	@${VENV}/black --exclude venv ${ROOT_DIR}
 	@echo "Syntax fixer process ended"
+
+test: activate
+	@echo "Testing..."
+	@${VENV}/pytest ${ROOT_DIR}
 
 run: activate
 	@echo "Running the server"
-	@python ${ROOT_DIR}/manage.py runserver
+	@${VENV}/python ${ROOT_DIR}/manage.py runserver

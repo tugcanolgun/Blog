@@ -1,0 +1,5 @@
+-r prod.txt
+mypy==0.650
+flake8==3.6.0
+black==19.3b0
+pytest-django==3.6.0

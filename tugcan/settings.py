@@ -45,7 +45,7 @@ else:
         f.write(SECRET_KEY)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG: bool = True
+DEBUG: bool = False
 
 # Change the access domain here
 ALLOWED_HOSTS: list = ["tugcan.net", "127.0.0.1"]
