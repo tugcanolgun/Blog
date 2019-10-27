@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from django.urls import reverse
 from panel.forms import StaticForm, CategoryForm
 from panel.models import Static
@@ -45,8 +46,6 @@ def static_delete(request, static_id: uuid4):
 
 @login_required
 def static_create(request):
-    obj = Static.objects.create(
-        created_at=datetime.date.today(), title="Enter a title --"
-    )
+    obj = Static.objects.create(created_at=timezone.now(), title="Enter a title --")
     messages.success(request, "Static page is created")
     return redirect(reverse("panel:static_edit", kwargs={"static_id": obj.id}))

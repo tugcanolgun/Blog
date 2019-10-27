@@ -8,7 +8,7 @@ from django.template.defaultfilters import slugify
 
 class Categories(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    name = models.CharField(max_length=50, null=False)
+    name = models.CharField(max_length=50, unique=True, null=False)
     created_at = models.DateField("date created", auto_now=True)
     slug = models.SlugField(default=uuid.uuid4)
     is_static_url = models.BooleanField(default=False)

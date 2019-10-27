@@ -49,9 +49,9 @@ def category_delete(request, pk=None):
     obj = get_object_or_404(Categories, id=pk)
     if obj:
         obj.delete()
-        messages.success(request, "Category %s is deleted" % obj.name)
+        messages.success(request, f"Category {obj.name} is deleted")
         return redirect(reverse("panel:posts"))
         return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
     else:
-        logger.warning("Cateogry could not be found. ID: %s" % (pk,))
-        return HttpResponse(status=204)
+        logger.warning(f"Cateogry could not be found. ID: {pk}")
+        return HttpResponse(status=404)

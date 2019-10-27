@@ -1,7 +1,7 @@
-import datetime
 from uuid import uuid4
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -31,7 +31,7 @@ def post_edit(request, post_id: uuid4):
     if request.method == "POST":
         if form.is_valid():
             post = form.save(commit=False)
-            post.updated_at = datetime.datetime.now()
+            post.updated_at = timezone.now()
             post.save()
             messages.success(request, "Post is updated")
             return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
@@ -54,7 +54,7 @@ def post_create(request, pk=None):
     else:
         cat = None
     obj = Content.objects.create(
-        created_at=datetime.date.today(), title="Enter a title --", category=cat
+        created_at=timezone.now(), title="Enter a title --", category=cat
     )
     messages.success(request, "Category is created")
     return redirect(reverse("panel:post_edit", kwargs={"post_id": obj.id}))

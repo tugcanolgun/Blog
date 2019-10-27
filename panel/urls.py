@@ -12,11 +12,9 @@ urlpatterns = [
     path("post/delete/<uuid:post_id>", views.post_delete, name="post_delete"),
     path("statics", views.statics, name="statics"),
     path("static/create", views.static_create, name="static_create"),
-    path("static/create/<uuid:pk>", views.static_create, name="static_create"),
     path("static/edit/<uuid:static_id>", views.static_edit, name="static_edit"),
     path("static/delete/<uuid:static_id>", views.static_delete, name="static_delete"),
     path("category/add", views.category_add, name="category_add"),
     path("category/delete/<uuid:pk>", views.category_delete, name="category_delete"),
     path("category/<uuid:pk>", views.category, name="category"),
-    path("statics", views.statics, name="statics"),
 ]
