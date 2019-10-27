@@ -7,7 +7,10 @@ python:
   - "nightly"  # nightly build
 # command to install dependencies
 install:
-  - pip install -r requirements.txt
+  - pip install pip --upgrade
+  - pip install setuptools --upgrade
+  - pip install -r requirements/prod.txt
+  - pip install pytest-django==3.6.0
 # command to run tests
 script:
   - pytest
