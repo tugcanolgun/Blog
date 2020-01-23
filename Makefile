@@ -9,6 +9,7 @@ default:
 	@echo "'run'"
 	@echo "'test'"
 	@echo "'install'"
+	@echo "'upgrade'"
 
 check_venv:
 	@if [ -a ${ROOT_DIR}/venv/bin/activate ]; \
@@ -49,3 +50,7 @@ test: activate
 run: activate
 	@echo "Running the server"
 	@${VENV}/python ${ROOT_DIR}/manage.py runserver
+
+upgrade: activate
+	@echo "Upgrading dependencies"
+	@${VENV}/python ${ROOT_DIR}/requirements/upgrade_dependencies.py

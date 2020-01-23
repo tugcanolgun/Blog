@@ -1,5 +1,6 @@
+import os
 from pathlib import Path
-from typing import List, Set, Dict, Optional
+from typing import List, Dict, Optional
 from dataclasses import dataclass
 import pkg_resources
 from subprocess import call, check_output
@@ -12,6 +13,7 @@ class Dependency:
     update_version: Optional[str] = None
 
 
+DIR = os.path.dirname(os.path.realpath(__file__))
 DEPS: Dict[str, List[Dependency]] = {"dev.txt": [], "prod.txt": []}
 UPDATED_DEPS: Dict[str, str] = {}
 
@@ -23,19 +25,17 @@ def upgrage_packages():
 
 def check_dependency_files():
     file_list: List[str] = []
-    for _file in Path().iterdir():
+    for _file in Path(DIR).iterdir():
         if _file.name not in DEPS:
             continue
         file_list.append(_file.name)
 
-    assert set(file_list) == set(
-        DEPS
-    ), f"Files do not match, {file_list} and {DEP_FILES}"
+    assert set(file_list) == set(DEPS), f"Files do not match, {set(file_list)} and {set(DEPS)}"
     print("Dependency files check is OK")
 
 
 def get_dependencies(file):
-    with open(file.name, "r") as f:
+    with open(f"{DIR}/{file.name}", "r") as f:
         lines = f.readlines()
         for line in lines:
             if "\n" in line:
@@ -49,7 +49,7 @@ def get_dependencies(file):
 
 
 def get_current_dependencies():
-    for _file in Path().iterdir():
+    for _file in Path(DIR).iterdir():
         if _file.name in DEPS:
             get_dependencies(_file)
 
@@ -85,7 +85,7 @@ def write_to_files():
                 if dep.current_version:
                     content += f"=={dep.current_version}"
             content += "\n"
-        with open(_file, "w") as f:
+        with open(f"{DIR}/{_file}", "w") as f:
             f.write(content)
 
     print("Writing complete")
