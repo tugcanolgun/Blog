@@ -26,7 +26,7 @@ DISPLAY_NAME: str = "Tugcan Olgun"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-SECRET_FOLDER = Path() / ".env"
+SECRET_FOLDER = Path() / "venv"
 SECRET_FILE = SECRET_FOLDER / ".secret"
 if SECRET_FILE.is_file():
     with open(SECRET_FILE, "r") as f:
@@ -172,3 +172,5 @@ LOGGING = {
         "": {"handlers": ["logstash"], "level": "DEBUG"},
     },
 }
+
+TEST_RUNNER = "tugcan.runner.PytestTestRunner"
