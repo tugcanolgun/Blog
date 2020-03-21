@@ -48,7 +48,7 @@ else:
 DEBUG: bool = False
 
 # Change the access domain here
-ALLOWED_HOSTS: list = ["tugcan.net", "127.0.0.1"]
+ALLOWED_HOSTS: list = ["tugcan.net", "www.tugcan.net", "127.0.0.1"]
 
 LOGOUT_REDIRECT_URL = "/panel"
 
