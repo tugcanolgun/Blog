@@ -35,7 +35,7 @@ activate: check_venv
 
 lint: activate
 	@echo "Running linter"
-	@${VENV}/flake8 --exclude venv,__init__.py --max-line-length=100 ${ROOT_DIR}
+	@${VENV}/flake8 ${ROOT_DIR}
 	@echo "Linter process ended"
 
 fix: activate
