@@ -12,3 +12,7 @@ install:
 # command to run tests
 script:
   - pytest
+  - coverage run --source=tugcan,panel,blog -m pytest
+  - flake8
+after_success:
+  - coverage report -m
