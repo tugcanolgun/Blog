@@ -30,7 +30,9 @@ def check_dependency_files():
             continue
         file_list.append(_file.name)
 
-    assert set(file_list) == set(DEPS), f"Files do not match, {set(file_list)} and {set(DEPS)}"
+    assert set(file_list) == set(
+        DEPS
+    ), f"Files do not match, {set(file_list)} and {set(DEPS)}"
     print("Dependency files check is OK")
 
 

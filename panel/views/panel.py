@@ -1,3 +1,4 @@
+import logging
 from uuid import uuid4
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
@@ -8,10 +9,13 @@ from django.urls import reverse
 from panel.forms import BlogForm, CategoryForm
 from panel.models import Content, Categories
 
+logger = logging.getLogger(__name__)
+
 
 @login_required
 def index(request):
     """Index page view"""
+    logger.info("Panel index page is requested")
     return render(request, "panel/index.html")
 
 

@@ -150,3 +150,25 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static/"),)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
+
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "logstash": {
+            "level": "INFO",
+            "class": "logstash.TCPLogstashHandler",
+            "host": "tugcan.org",
+            "port": 5100,
+            "version": 0,
+            "message_type": "django",
+            "fqdn": True,
+            "tags": ["django.request", "tugcan", "blog"],
+        },
+    },
+    "loggers": {
+        "django.request": {"handlers": ["logstash"], "level": "DEBUG"},
+        "": {"handlers": ["logstash"], "level": "DEBUG"},
+    },
+}
