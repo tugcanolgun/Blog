@@ -14,7 +14,7 @@ class CustomTCPLogstashHandler(TCPLogstashHandler):
     def emit(self, record):
         try:
             request = record.args[0]
-            record.ip = _get_client_ip(request)
+            record.geoip = {"ip": _get_client_ip(request)}
             record.args = None
         except Exception:
             pass
