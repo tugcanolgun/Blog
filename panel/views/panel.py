@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 @login_required
 def index(request):
     """Index page view"""
-    logger.info("Panel index page is requested")
+    logger.info("Panel index page is requested", request)
     return render(request, "panel/index.html")
 
 

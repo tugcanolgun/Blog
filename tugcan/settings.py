@@ -158,10 +158,10 @@ LOGGING = {
     "handlers": {
         "logstash": {
             "level": "INFO",
-            "class": "logstash.TCPLogstashHandler",
+            "class": "tugcan.middleware.CustomTCPLogstashHandler",
             "host": "tugcan.org",
             "port": 5100,
-            "version": 0,
+            "version": 1,
             "message_type": "django",
             "fqdn": True,
             "tags": ["django.request", "tugcan", "blog"],
