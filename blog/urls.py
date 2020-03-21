@@ -2,6 +2,8 @@ from django.urls import path
 
 from . import views
 
+handler404 = "blog.views.handler404"
+
 app_name = "blog"
 urlpatterns = [
     path("", views.index, name="index"),

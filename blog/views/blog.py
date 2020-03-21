@@ -65,3 +65,7 @@ def static(request, pk=None):
     content = {"post": obj}
     logger.info("Static page %s is requested", obj.title, request)
     return render(request, "blog/view.html", content)
+
+
+def handler404(request, exception, template_name="404.html"):
+    return {}
