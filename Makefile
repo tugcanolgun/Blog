@@ -10,6 +10,7 @@ default:
 	@echo "'test'"
 	@echo "'install'"
 	@echo "'upgrade'"
+	@echo "'deploy'"
 
 check_venv:
 	@if [ -a ${ROOT_DIR}/venv/bin/activate ]; \
@@ -54,3 +55,22 @@ run: activate
 upgrade: activate
 	@echo "Upgrading dependencies"
 	@${VENV}/python ${ROOT_DIR}/requirements/upgrade_dependencies.py
+
+deploy:
+	@echo "Deploying to production"
+	@if [ -a ${ROOT_DIR}/venv/bin/activate ]; \
+	then \
+		echo "Found virtualenv"; \
+	else \
+		echo "Virtualenv could not be found. Initiating..." && \
+		python3 -m venv ${ROOT_DIR}/venv && \
+		echo "Activating the virtualenv..."; \
+	fi;
+	. ${VENV}/activate
+	@echo "Upgrading pip..."
+	pip install --upgrade pip
+	@echo "Installing the dependencies..."
+	pip install -r ${ROOT_DIR}/requirements/prod.txt
+	@echo "Installation is complete. Attempting to restarting the service..."
+	@echo "If prompt, please enter password."
+	systemctl restart blog.service
