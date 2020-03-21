@@ -16,6 +16,7 @@ Including another URLconf
 # from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path("", include("blog.urls"), name="main"),
@@ -26,5 +27,11 @@ urlpatterns = [
         name="login",
     ),
     path("accounts/logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path(
+        "robots.txt",
+        TemplateView.as_view(
+            template_name="blog/robots.txt", content_type="text/plain"
+        ),
+    ),
     # path('admin/', admin.site.urls),
 ]
