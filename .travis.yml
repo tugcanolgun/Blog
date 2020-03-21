@@ -7,7 +7,7 @@ python:
 install:
   - pip install pip --upgrade
   - pip install setuptools --upgrade
-  - pip install -r requirements/prod.txt
+  - pip install -r requirements/dev.txt
   - pip install pytest-django==3.6.0
 # command to run tests
 script:
