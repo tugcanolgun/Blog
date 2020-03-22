@@ -70,6 +70,6 @@ def static(request, pk=None):
 
 
 def handler404(request, exception, template_name="404.html"):
-    logger.info("Not found: %s", request.path, request)
+    # logger.info("Not found: %s", request.path, request)
     template = loader.get_template(template_name)
     return HttpResponseNotFound(template.render(), content_type="text/html")
