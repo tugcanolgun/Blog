@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 def index(request):
     posts = Content.objects.order_by("-updated_at").filter(published=True).all()[:3]
     content = {"posts": posts}
-    logger.info("Index page is requested")
+    logger.info("Index page is requested", request)
     return render(request, "blog/index.html", content)
 
 
@@ -29,7 +29,7 @@ def allposts(request):
         # 'posts': posts
         "content": cont
     }
-    logger.info("All posts are requested")
+    logger.info("All posts are requested", request)
     return render(request, "blog/allposts.html", content)
 
 
@@ -42,28 +42,28 @@ def category(request, pk=None):
         .all()
     )
     content = {"posts": posts, "category": obj}
-    logger.info("Categories are requested")
+    logger.info("Categories are requested", request)
     return render(request, "blog/category.html", content)
 
 
 def preview(request, pk=None):
     obj = get_object_or_404(Content, id=pk)
     content = {"post": obj}
-    logger.info("Preview %s is requested", obj.title)
+    logger.info("Preview %s is requested", obj.title, request)
     return render(request, "blog/view.html", content)
 
 
 def view(request, pk=None):
     obj = get_object_or_404(Content, slug=pk)
     content = {"post": obj}
-    logger.info("Content %s is requested", obj.title)
+    logger.info("Content %s is requested", obj.title, request)
     return render(request, "blog/view.html", content)
 
 
 def static(request, pk=None):
     obj = get_object_or_404(Static, slug=pk)
     content = {"post": obj}
-    logger.info("Static page %s is requested", obj.title)
+    logger.info("Static page %s is requested", obj.title, request)
     return render(request, "blog/view.html", content)
 
 

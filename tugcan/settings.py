@@ -155,37 +155,22 @@ MEDIA_URL = "/media/"
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "formatters": {
-        "logstash": {
-            "()": "logstash_async.formatter.DjangoLogstashFormatter",
-            "message_type": "python-logstash",
-            "fqdn": False,  # Fully qualified domain name. Default value: false.
-            "extra_prefix": "dev",  #
-            "extra": {"application": "tugcan.net", "environment": "production"},
-        },
-    },
     "handlers": {
         "logstash": {
             "level": "INFO",
-            "class": "logstash_async.handler.AsynchronousLogstashHandler",
-            "transport": "logstash_async.transport.TcpTransport",
+            "class": "tugcan.middleware.CustomTCPLogstashHandler",
             "host": "tugcan.org",
             "port": 5100,
-            "ssl_enable": False,
-            "ssl_verify": False,
-            #   'ca_certs': 'etc/ssl/certs/logstash_ca.crt',
-            #   'certfile': '/etc/ssl/certs/logstash.crt',
-            #   'keyfile': '/etc/ssl/private/logstash.key',
-            "database_path": None,
+            "version": 1,
+            "message_type": "django",
+            "fqdn": False,
+            "tags": ["tugcan.net"],
         },
     },
     "loggers": {
-        "": {"handlers": ["logstash"], "level": "DEBUG", "propagate": True},
-        "django.request": {
-            "handlers": ["logstash"],
-            "level": "DEBUG",
-            "propagate": True,
-        },
+        "django.request": {"handlers": ["logstash"], "level": "DEBUG"},
+        "": {"handlers": ["logstash"], "level": "DEBUG"},
     },
 }
+
 TEST_RUNNER = "tugcan.runner.PytestTestRunner"

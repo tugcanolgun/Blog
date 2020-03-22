@@ -1,4 +1,4 @@
 Django==3.0.4
 gunicorn==20.0.4
 django-crispy-forms==1.9.0
-python-logstash-async==1.6.4
+python3-logstash==0.4.80
