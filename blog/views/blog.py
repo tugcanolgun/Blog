@@ -1,6 +1,8 @@
 import logging
 
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseNotFound
+from django.template import loader
 
 from panel.models import Content, Categories, Static
 
@@ -68,4 +70,6 @@ def static(request, pk=None):
 
 
 def handler404(request, exception, template_name="404.html"):
-    return {}
+    logger.info("Not found: %s", request.path, request)
+    template = loader.get_template(template_name)
+    return HttpResponseNotFound(template.render(), content_type="text/html")
