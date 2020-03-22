@@ -133,8 +133,12 @@ class CustomTCPLogstashHandler(TCPLogstashHandler):
     def emit(self, record):
         if record.args:
             record.request = record.args[0]
-            if isinstance(record.args[0], WSGIRequest):
-                record.args = None
+            temp_args = list(record.args)
+            for index, arg in enumerate(temp_args):
+                if isinstance(arg, WSGIRequest):
+                    del temp_args[index]
+
+            record.args = tuple(temp_args)
 
         extra_fields = DjangoLogstashFormatter().get_fields(record)
         for key, field in extra_fields.items():
