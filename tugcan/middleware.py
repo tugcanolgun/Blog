@@ -67,7 +67,7 @@ class DjangoLogstashFormatter:
             extra_fields["req_useragent"] = request.META.get(
                 "HTTP_USER_AGENT", "<none>"
             )
-            extra_fields["geoip.ip"] = request.META.get("REMOTE_ADDR", "<none>")
+            extra_fields["geoip"] = {"ip": request.META.get("REMOTE_ADDR", "")}
             extra_fields["req_host"] = self._try_to_get_host_from_remote(request)
             extra_fields["req_uri"] = request.get_raw_uri()
             extra_fields["req_user"] = str(request_user)
