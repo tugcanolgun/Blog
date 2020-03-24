@@ -1,0 +1,3 @@
+[flake8]
+exclude = .git,*migrations*,venv,__init__.py,tugcan/settings
+max-line-length = 100

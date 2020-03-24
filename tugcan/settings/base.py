@@ -15,7 +15,7 @@ import random
 from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Used for static files and .sock file for gunicorn. Do not use space or special characters
 APP_NAME: str = "tugcan"
@@ -48,7 +48,7 @@ else:
 DEBUG: bool = False
 
 # Change the access domain here
-ALLOWED_HOSTS: list = ["tugcan.net", "www.tugcan.net", "127.0.0.1"]
+ALLOWED_HOSTS: list = ["tugcan.net", "www.tugcan.net", "127.0.0.1", "localhost"]
 
 LOGOUT_REDIRECT_URL = "/panel"
 
