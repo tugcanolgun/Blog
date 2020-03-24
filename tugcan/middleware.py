@@ -1,5 +1,6 @@
 import sys
 import traceback
+from logging import StreamHandler
 
 from logstash import TCPLogstashHandler
 
@@ -145,3 +146,16 @@ class CustomTCPLogstashHandler(TCPLogstashHandler):
             setattr(record, key, field)
 
         super(TCPLogstashHandler, self).emit(record)
+
+
+class CustomStreamHandler(StreamHandler):
+    def emit(self, record):
+        if record.args:
+            temp_args = list(record.args)
+            for index, arg in enumerate(temp_args):
+                if isinstance(arg, WSGIRequest):
+                    del temp_args[index]
+
+            record.args = tuple(temp_args)
+
+        super(StreamHandler, self).emit(record)
