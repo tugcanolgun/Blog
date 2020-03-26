@@ -48,6 +48,11 @@ def category_add(request):
 def category_delete(request, pk=None):
     obj = get_object_or_404(Category, id=pk)
     if obj:
+        if Content.objects.filter(category=obj).exists():
+            return HttpResponse(
+                "There are Contents with this category. Delete them first", status=400
+            )
+
         obj.delete()
         messages.success(request, f"Category {obj.name} is deleted")
         return redirect(reverse("panel:posts"))

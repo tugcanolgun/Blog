@@ -172,6 +172,20 @@ class TestAuthorized:
         assert response.status_code == 302
         assert response.url == "/panel/posts"
 
+    def test_category_delete_rejects_if_contents_exist(
+        self, user_client: Client
+    ) -> None:
+        category: Category = CategoryFactory(name="name", created_at=timezone.now())
+        ContentFactory(category=category)
+
+        response = user_client.get(f"/panel/category/delete/{category.id}")
+
+        assert response.status_code == 400
+        assert (
+            response.content
+            == b"There are Contents with this category. Delete them first"
+        )
+
 
 @pytest.mark.usefixtures("db")
 @pytest.mark.parametrize(
