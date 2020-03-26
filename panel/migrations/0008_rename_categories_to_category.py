@@ -5,6 +5,7 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
+    atomic = False  # For sqlite < 3.2
 
     dependencies = [
         ("panel", "0007_add_is_static_url_to_models"),

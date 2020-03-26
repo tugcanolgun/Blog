@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
+    atomic = False  # For sqlite < 3.2
 
     dependencies = [
-        ('panel', '0008_rename_categories_to_category'),
+        ("panel", "0008_rename_categories_to_category"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='category',
-            name='name',
+            model_name="category",
+            name="name",
             field=models.CharField(max_length=50, unique=True),
         ),
     ]
