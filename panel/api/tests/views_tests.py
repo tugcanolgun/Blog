@@ -100,5 +100,5 @@ class TestContentEndpoint:
             content_type="application/json",
         )
 
-        assert response.status_code == status.HTTP_200_OK, response.content
+        assert response.status_code == status.HTTP_204_NO_CONTENT, response.content
         assert Content.objects.count() == 0

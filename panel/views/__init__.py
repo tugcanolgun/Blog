@@ -1,3 +1,3 @@
-from .panel import *
-from .categories import *
-from .static import *
+from panel.views.panel import *
+from panel.views.category import *
+from panel.views.static import *

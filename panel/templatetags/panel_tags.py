@@ -1,4 +1,4 @@
-from panel.models import Categories
+from panel.models import Category
 from django import template
 from django.conf import settings
 
@@ -7,7 +7,7 @@ register = template.Library()
 
 @register.simple_tag()
 def all_categories():
-    context = Categories.objects.all()
+    context = Category.objects.all()
     return context
 
 

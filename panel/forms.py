@@ -2,7 +2,7 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.urls import reverse
-from panel.models import Content, Categories
+from panel.models import Content, Category
 
 
 class BlogForm(forms.ModelForm):
@@ -25,7 +25,7 @@ class BlogForm(forms.ModelForm):
 
 class CategoryForm(forms.ModelForm):
     class Meta:
-        model = Categories
+        model = Category
         fields = ("name", "slug", "is_static_url")
 
     def __init__(self, *args, **kwargs):

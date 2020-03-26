@@ -2,12 +2,12 @@ import factory
 from django.utils import timezone
 from django.contrib.auth.models import User
 
-from panel.models import Categories, Static, Content
+from panel.models import Category, Static, Content
 
 
-class CategoriesFactory(factory.DjangoModelFactory):
+class CategoryFactory(factory.DjangoModelFactory):
     class Meta:
-        model = Categories
+        model = Category
 
     name = "Software"
 

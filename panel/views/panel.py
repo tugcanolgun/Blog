@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from panel.forms import BlogForm, CategoryForm
-from panel.models import Content, Categories
+from panel.models import Content, Category
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +54,7 @@ def post_delete(request, post_id: uuid4):
 @login_required
 def post_create(request, pk=None):
     if pk:
-        cat = get_object_or_404(Categories, id=pk)
+        cat = get_object_or_404(Category, id=pk)
     else:
         cat = None
     obj = Content.objects.create(

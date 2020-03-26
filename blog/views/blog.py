@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseNotFound
 from django.template import loader
 
-from panel.models import Content, Categories, Static
+from panel.models import Content, Category, Static
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +17,6 @@ def index(request):
 
 
 def allposts(request):
-    # categories = Categories.objects.all()
     cont: dict = {}
     posts = (
         Content.objects.order_by("-created_at", "category").filter(published=True).all()
@@ -36,7 +35,7 @@ def allposts(request):
 
 
 def category(request, pk=None):
-    obj = get_object_or_404(Categories, id=pk)
+    obj = get_object_or_404(Category, id=pk)
     posts = (
         Content.objects.filter(category=pk)
         .filter(published=True)

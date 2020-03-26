@@ -1,9 +1,9 @@
 import pytest
 from django.test import Client
 
-from panel.models import Categories, Content, Static
+from panel.models import Category, Content, Static
 from panel.factories import (
-    CategoriesFactory,
+    CategoryFactory,
     StaticFactory,
     ContentFactory,
 )
@@ -22,7 +22,7 @@ class TestAccessibility:
         assert response.status_code == 200
 
     def test_category(self, client: Client) -> None:
-        category: Categories = CategoriesFactory()
+        category: Category = CategoryFactory()
 
         response = client.get(f"/category/{category.id}")
 

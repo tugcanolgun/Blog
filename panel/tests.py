@@ -4,9 +4,9 @@ import pytest
 from django.utils import timezone
 from django.test import Client
 
-from panel.models import Categories, Content, Static
+from panel.models import Category, Content, Static
 from panel.factories import (
-    CategoriesFactory,
+    CategoryFactory,
     StaticFactory,
     ContentFactory,
 )
@@ -14,14 +14,12 @@ from panel.factories import (
 
 @pytest.mark.usefixtures("db")
 class TestSlugFunctions:
-    def test_categories_slug(self):
-        """Test Categories slug creation"""
-        title1 = CategoriesFactory(
-            name="title1", slug="title1-slug", is_static_url=True
-        )
-        title2 = CategoriesFactory(name="title2", slug="title2-slug")
-        title3 = CategoriesFactory(name="title3")
-        title1slug = CategoriesFactory(name="title1-slug")
+    def test_category_slug(self):
+        """Test Category slug creation"""
+        title1 = CategoryFactory(name="title1", slug="title1-slug", is_static_url=True)
+        title2 = CategoryFactory(name="title2", slug="title2-slug")
+        title3 = CategoryFactory(name="title3")
+        title1slug = CategoryFactory(name="title1-slug")
 
         assert title1.slug == "title1-slug"
         assert title2.slug == "title2"
@@ -92,7 +90,7 @@ class TestAuthorized:
 
         assert response.status_code == 404
 
-        category: Categories = CategoriesFactory(name="name", created_at=timezone.now())
+        category: Category = CategoryFactory(name="name", created_at=timezone.now())
 
         response = user_client.get(f"/panel/post/create/{category.id}")
 
@@ -153,11 +151,11 @@ class TestAuthorized:
         assert response.status_code == 302
         assert response.url == "/"
 
-    def test_categories(self, user_client: Client):
+    def test_category(self, user_client: Client):
         content: Content = ContentFactory(
             title="title", body="body", created_at=timezone.now()
         )
-        category: Categories = CategoriesFactory(name="name", created_at=timezone.now())
+        category: Category = CategoryFactory(name="name", created_at=timezone.now())
         content.category = category
         content.save()
 
@@ -167,7 +165,7 @@ class TestAuthorized:
         assert len(response.context["posts"]) == 1
 
     def test_category_delete(self, user_client: Client) -> None:
-        category: Categories = CategoriesFactory(name="name", created_at=timezone.now())
+        category: Category = CategoryFactory(name="name", created_at=timezone.now())
 
         response = user_client.get(f"/panel/category/delete/{category.id}")
 

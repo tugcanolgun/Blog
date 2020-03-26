@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, render, redirect, reverse
 from django.contrib.auth.decorators import login_required
-from panel.models import Categories, Content, Static
+from panel.models import Content, Static, Category
 from panel.forms import CategoryForm
 
 logging.basicConfig(level=logging.INFO)
@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 @login_required
 def category(request, pk=None):
-    obj = get_object_or_404(Categories, id=pk)
+    obj = get_object_or_404(Category, id=pk)
     posts = Content.objects.filter(category=obj).order_by("-updated_at").all()
     form = CategoryForm(request.POST or None)
     context = {"posts": posts, "form": form, "category": obj}
@@ -46,7 +46,7 @@ def category_add(request):
 
 @login_required
 def category_delete(request, pk=None):
-    obj = get_object_or_404(Categories, id=pk)
+    obj = get_object_or_404(Category, id=pk)
     if obj:
         obj.delete()
         messages.success(request, f"Category {obj.name} is deleted")

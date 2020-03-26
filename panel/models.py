@@ -6,7 +6,7 @@ from django.db import models
 from django.template.defaultfilters import slugify
 
 
-class Categories(models.Model):
+class Category(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     name = models.CharField(max_length=50, unique=True, null=False)
     created_at = models.DateField("date created", auto_now=True)
@@ -15,7 +15,7 @@ class Categories(models.Model):
 
     def save(self, *args, **kwargs):
         def generate_slug(name: str) -> bool:
-            if Categories.objects.filter(slug=name).exists():
+            if Category.objects.filter(slug=name).exists():
                 return True
             return False
 
@@ -63,7 +63,7 @@ class Content(models.Model):
     title = models.CharField(max_length=50, null=False)
     body = models.TextField(null=True, default="")
     published = models.BooleanField(default=False)
-    category = models.ForeignKey(Categories, on_delete=models.SET_NULL, null=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     created_at = models.DateTimeField("date published")
     updated_at = models.DateTimeField("date updated", auto_now=True)
     slug = models.SlugField(default=uuid.uuid4)
