@@ -94,15 +94,3 @@ class Content(models.Model):
     @property
     def is_updated(self):
         return self.created_at.date() == self.updated_at.date()
-
-
-class Tags(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    name = models.CharField(max_length=50, null=False)
-    created_at = models.DateField("date created", auto_now=True)
-
-
-class ContentTags(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    content = models.ForeignKey(Content, on_delete=models.CASCADE)
-    tag = models.ForeignKey(Tags, on_delete=models.CASCADE)
