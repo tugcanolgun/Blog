@@ -6,6 +6,7 @@ from django.db.utils import IntegrityError
 from rest_framework import serializers
 
 from panel.models import Content, Category, Static
+from panel.exceptions import ValidationError
 
 
 class CategorySerializer(serializers.Serializer):
@@ -21,7 +22,7 @@ class CategorySerializer(serializers.Serializer):
         try:
             return Category.objects.create(**validated_data)
         except IntegrityError as exp:
-            raise serializers.ValidationError(exp)
+            raise ValidationError(exp)
 
     def update(self, instance, validated_data):
         """
@@ -59,7 +60,7 @@ class ContentSerializer(serializers.Serializer):
             if category is not None:
                 validated_data["category"] = category
             else:
-                raise serializers.ValidationError(f"Category does not exist")
+                raise ValidationError(f"Category does not exist")
 
         try:
             return Content.objects.create(**validated_data)
