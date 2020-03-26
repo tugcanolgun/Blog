@@ -39,7 +39,7 @@ class TestContentEndpoint:
 
         assert response.status_code == status.HTTP_200_OK
         assert len(response.json()) == 1
-        assert keys == response.json()[0].keys()
+        assert keys == response.json()[0].keys(), response.json()
         assert response.json()[0]["title"] == "Title1"
         assert response.json()[0]["body"] == "Text"
         assert response.json()[0]["published"] is False
@@ -48,6 +48,7 @@ class TestContentEndpoint:
 
     def test_post_creates_new_content_without_category(self, user_client: Client):
         data: Dict[str, Any] = {"title": "Title1", "body": "Body text"}
+
         response = user_client.post(
             reverse("panel:content_api"), data=data, content_type="application/json",
         )
@@ -59,7 +60,7 @@ class TestContentEndpoint:
 
         assert content.title == data["title"]
         assert content.body == data["body"]
-        assert content.slug == data["title"].lower()
+        assert content.slug == data["title"].lower().replace(" ", "-")
         assert content.published is False
         assert content.category is None
         assert content.is_static_url is False
@@ -80,7 +81,7 @@ class TestContentEndpoint:
         assert Content.objects.count() == 1
         assert Content.objects.first().category == category, category.name
 
-    def test_post_creates_new_content_with_invalid_category(self, user_client: Client):
+    def test_post_raises_with_invalid_category(self, user_client: Client):
         data: Dict[str, Any] = {
             "title": "Title1",
             "body": "Body text",
@@ -91,9 +92,8 @@ class TestContentEndpoint:
             reverse("panel:content_api"), data=data, content_type="application/json",
         )
 
-        assert response.status_code == status.HTTP_201_CREATED, response.content
-        assert Content.objects.count() == 1
-        assert Content.objects.first().category is None
+        assert response.status_code == status.HTTP_400_BAD_REQUEST
+        assert response.content == b'["Category does not exist"]'
 
     def test_patch_partially_updates_content(self, user_client: Client):
         initial_content: Content = ContentFactory(
@@ -103,6 +103,7 @@ class TestContentEndpoint:
             "title": "Title2",
             "body": "Body text",
         }
+
         response = user_client.patch(
             reverse("panel:content_api", kwargs={"pk": str(initial_content.id)}),
             data=data,
@@ -153,3 +154,80 @@ class TestContentEndpoint:
 
         assert response.status_code == status.HTTP_204_NO_CONTENT, response.content
         assert Content.objects.count() == 0
+
+
+@pytest.mark.usefixtures("db")
+class TestCategoryEndpoint:
+    def test_endpoint_rejects_unauthenticated_users(self, client: Client):
+        response = client.get(reverse("panel:category_api"),)
+
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_endpoint_returns_categories_in_db(self, user_client: Client):
+        CategoryFactory(name="Software")
+        keys: Set[str] = {"name", "created_at", "slug", "is_static_url"}
+
+        response = user_client.get(reverse("panel:category_api"),)
+
+        assert response.status_code == status.HTTP_200_OK
+        assert len(response.json()) == 1
+        assert keys == response.json()[0].keys(), response.json()
+        assert response.json()[0]["name"] == "Software"
+        assert response.json()[0]["slug"] == "software"
+        assert response.json()[0]["is_static_url"] is False
+
+    def test_post_creates_new_category(self, user_client: Client):
+        data: Dict[str, Any] = {"name": "New Category"}
+
+        response = user_client.post(
+            reverse("panel:category_api"), data=data, content_type="application/json",
+        )
+
+        assert response.status_code == status.HTTP_201_CREATED, response.content
+        assert Category.objects.count() == 1
+
+        category: Category = Category.objects.first()
+
+        assert category.name == data["name"]
+        assert category.slug == data["name"].lower().replace(" ", "-")
+        assert category.is_static_url is False
+
+    def test_post_rejects_creation_if_exists(self, user_client: Client):
+        category: Category = CategoryFactory()
+        data: Dict[str, Any] = {"name": category.name}
+
+        response = user_client.post(
+            reverse("panel:category_api"), data=data, content_type="application/json",
+        )
+
+        assert response.status_code == status.HTTP_400_BAD_REQUEST, response.content
+        assert response.content == b'["UNIQUE constraint failed: panel_category.name"]'
+
+    def test_patch_partially_updates_category(self, user_client: Client):
+        category: Category = CategoryFactory()
+        data: Dict[str, Any] = {"name": "New Category"}
+
+        response = user_client.patch(
+            reverse("panel:category_api", kwargs={"name": category.name}),
+            data=data,
+            content_type="application/json",
+        )
+
+        assert response.status_code == status.HTTP_200_OK, response.content
+        assert Category.objects.count() == 1
+
+        category: Category = Category.objects.first()
+
+        assert category.name == data["name"]
+        assert category.slug == data["name"].lower().replace(" ", "-")
+        assert category.is_static_url is False
+
+    def test_delete_removes_category(self, user_client: Client):
+        category: Category = CategoryFactory()
+
+        response = user_client.delete(
+            reverse("panel:category_api", kwargs={"name": category.name}),
+        )
+
+        assert response.status_code == status.HTTP_204_NO_CONTENT, response.content
+        assert Category.objects.count() == 0

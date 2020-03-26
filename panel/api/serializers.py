@@ -2,6 +2,7 @@ import uuid
 from typing import Optional
 
 from django.utils import timezone
+from django.db.utils import IntegrityError
 from rest_framework import serializers
 
 from panel.models import Content, Category
@@ -17,13 +18,16 @@ class CategorySerializer(serializers.Serializer):
         """
         Create and return a new `Content` instance, given the validated data.
         """
-        return Category.objects.create(**validated_data)
+        try:
+            return Category.objects.create(**validated_data)
+        except IntegrityError as exp:
+            raise serializers.ValidationError(exp)
 
     def update(self, instance, validated_data):
         """
         Update and return an existing `Content` instance, given the validated data.
         """
-        instance.name = validated_data.get("title", instance.title)
+        instance.name = validated_data.get("name", instance.name)
         instance.created_at = validated_data.get("created_at", instance.created_at)
         instance.slug = validated_data.get("slug", instance.slug)
         instance.is_static_url = validated_data.get(
@@ -38,7 +42,7 @@ class ContentSerializer(serializers.Serializer):
     title = serializers.CharField(required=True, allow_blank=False, max_length=50)
     body = serializers.CharField(required=False)
     published = serializers.BooleanField(required=False, default=False)
-    category = CategorySerializer(required=False)
+    category = CategorySerializer(required=False,)
     created_at = serializers.DateTimeField(required=False, default=timezone.now())
     updated_at = serializers.DateTimeField(required=False, read_only=True)
     slug = serializers.SlugField(required=False, default=uuid.uuid4)
@@ -52,12 +56,15 @@ class ContentSerializer(serializers.Serializer):
             category: Optional[Category] = Category.objects.filter(
                 name=validated_data["category"].get("name")
             ).first()
-            if category:
+            if category is not None:
                 validated_data["category"] = category
             else:
-                validated_data["category"] = None
+                raise serializers.ValidationError(f"Category does not exist")
 
-        return Content.objects.create(**validated_data)
+        try:
+            return Content.objects.create(**validated_data)
+        except IntegrityError as exp:
+            raise serializers.ValidationError(exp)
 
     def update(self, instance, validated_data):
         """
@@ -66,14 +73,15 @@ class ContentSerializer(serializers.Serializer):
         instance.title = validated_data.get("title", instance.title)
         instance.body = validated_data.get("body", instance.body)
         instance.published = validated_data.get("published", instance.published)
+
         if validated_data.get("category"):
             category: Optional[Category] = Category.objects.filter(
                 name=validated_data["category"].get("name")
             ).first()
-            if not category:
-                raise ValueError(f"Category does not exist")
-
-            instance.category = category
+            if category is not None:
+                instance.category = category
+            else:
+                raise serializers.ValidationError(f"Category does not exist")
 
         instance.created_at = validated_data.get("created_at", instance.created_at)
         instance.slug = validated_data.get("slug", instance.slug)
