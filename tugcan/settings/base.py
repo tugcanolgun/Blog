@@ -59,7 +59,8 @@ INSTALLED_APPS: list = [
     "blog.apps.BlogConfig",
     "panel.apps.PanelConfig",
     "crispy_forms",
-    "django.contrib.admin",
+    "rest_framework",
+    # "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -76,6 +77,12 @@ MIDDLEWARE: list = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+# REST_FRAMEWORK = {
+#     "DEFAULT_PERMISSION_CLASSES": [
+#         "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
+#     ]
+# }
 
 ROOT_URLCONF = "tugcan.urls"
 
@@ -167,10 +174,7 @@ LOGGING = {
             "tags": ["tugcan.net"],
         },
     },
-    "loggers": {
-        "django.request": {"handlers": ["logstash"], "level": "DEBUG"},
-        "": {"handlers": ["logstash"], "level": "DEBUG"},
-    },
+    "loggers": {"": {"handlers": ["logstash"], "level": "DEBUG"},},
 }
 
 TEST_RUNNER = "tugcan.runner.PytestTestRunner"

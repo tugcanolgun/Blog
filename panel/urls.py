@@ -1,9 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 
-from . import views
+from panel import views
 
 app_name = "panel"
 urlpatterns = [
+    path("api/", include("panel.api.urls"), name="panel_api"),
     path("", views.index, name="index"),
     path("posts", views.posts, name="posts"),
     path("post/create", views.post_create, name="post_create"),
