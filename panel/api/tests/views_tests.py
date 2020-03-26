@@ -5,8 +5,8 @@ from django.test import Client
 from django.urls import reverse
 from rest_framework import status
 
-from panel.factories import ContentFactory, CategoryFactory
-from panel.models import Content, Category
+from panel.factories import ContentFactory, CategoryFactory, StaticFactory
+from panel.models import Content, Category, Static
 
 
 @pytest.mark.usefixtures("db")
@@ -231,3 +231,88 @@ class TestCategoryEndpoint:
 
         assert response.status_code == status.HTTP_204_NO_CONTENT, response.content
         assert Category.objects.count() == 0
+
+
+@pytest.mark.usefixtures("db")
+class TestStaticEndpoint:
+    def test_endpoint_rejects_unauthenticated_users(self, client: Client):
+        response = client.get(reverse("panel:static_api"),)
+
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_endpoint_returns_statics_in_db(self, user_client: Client):
+        StaticFactory(title="Title1", body="Text", is_static_url=False)
+        keys: Set[str] = {
+            "id",
+            "title",
+            "body",
+            "created_at",
+            "updated_at",
+            "slug",
+            "is_static_url",
+        }
+
+        response = user_client.get(reverse("panel:static_api"),)
+
+        assert response.status_code == status.HTTP_200_OK
+        assert len(response.json()) == 1
+        assert keys == response.json()[0].keys(), response.json()
+        assert response.json()[0]["title"] == "Title1"
+        assert response.json()[0]["body"] == "Text"
+        assert response.json()[0]["slug"] == "title1"
+        assert response.json()[0]["is_static_url"] is False
+
+    def test_post_creates_new_static(self, user_client: Client):
+        data: Dict[str, Any] = {"title": "Title1", "body": "Body text"}
+
+        response = user_client.post(
+            reverse("panel:static_api"), data=data, content_type="application/json",
+        )
+
+        assert response.status_code == status.HTTP_201_CREATED, response.content
+        assert Static.objects.count() == 1
+
+        static: Static = Static.objects.first()
+
+        assert static.title == data["title"]
+        assert static.body == data["body"]
+        assert static.slug == data["title"].lower().replace(" ", "-")
+        assert static.is_static_url is False
+
+    def test_patch_partially_updates_static(self, user_client: Client):
+        initial_static: Static = StaticFactory(
+            title="Title1", body="Text", is_static_url=False,
+        )
+        data: Dict[str, Any] = {
+            "title": "Title2",
+            "body": "Body text",
+        }
+
+        response = user_client.patch(
+            reverse("panel:static_api", kwargs={"pk": str(initial_static.id)}),
+            data=data,
+            content_type="application/json",
+        )
+
+        assert response.status_code == status.HTTP_200_OK, response.content
+        assert Static.objects.count() == 1
+
+        static: Static = Static.objects.first()
+
+        assert static.title == data["title"]
+        assert static.body == data["body"]
+        assert static.slug == data["title"].lower()
+        assert static.is_static_url is False
+        assert static.created_at == initial_static.created_at
+        assert static.updated_at != initial_static.updated_at
+
+    def test_delete_removes_static(self, user_client: Client):
+        static: Static = StaticFactory()
+
+        response = user_client.delete(
+            reverse("panel:static_api", kwargs={"pk": str(static.id)}),
+            content_type="application/json",
+        )
+
+        assert response.status_code == status.HTTP_204_NO_CONTENT, response.content
+        assert Static.objects.count() == 0
