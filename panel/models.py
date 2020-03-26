@@ -2,6 +2,7 @@ import uuid
 import random
 import string
 import datetime
+
 from django.db import models
 from django.template.defaultfilters import slugify
 
