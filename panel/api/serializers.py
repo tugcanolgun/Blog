@@ -1,5 +1,6 @@
 import uuid
 
+from django.utils import timezone
 from rest_framework import serializers
 
 from panel.models import Content
@@ -7,10 +8,10 @@ from panel.models import Content
 
 class ContentSerializer(serializers.Serializer):
     id = serializers.UUIDField(read_only=True)
-    title = serializers.CharField(required=False, allow_blank=False, max_length=50)
+    title = serializers.CharField(required=True, allow_blank=False, max_length=50)
     body = serializers.CharField(required=False)
     published = serializers.BooleanField(required=False, default=False)
-    created_at = serializers.DateTimeField(required=False)
+    created_at = serializers.DateTimeField(required=False, default=timezone.now())
     updated_at = serializers.DateTimeField(required=False, read_only=True)
     slug = serializers.SlugField(required=False, default=uuid.uuid4)
     is_static_url = serializers.BooleanField(required=False, default=False)

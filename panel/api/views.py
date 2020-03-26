@@ -5,7 +5,13 @@ from panel.models import Content
 from panel.api.serializers import ContentSerializer
 
 
-class ContentList(mixins.ListModelMixin, mixins.CreateModelMixin, GenericAPIView):
+class ContentList(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    GenericAPIView,
+):
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -15,3 +21,9 @@ class ContentList(mixins.ListModelMixin, mixins.CreateModelMixin, GenericAPIView
 
     def post(self, request, *args, **kwargs):
         return self.create(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
