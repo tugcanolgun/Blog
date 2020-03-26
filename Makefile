@@ -74,6 +74,7 @@ deploy:
 	@echo "Requirements installation is complete."
 	@echo "Attempting to migrate database..."
 	${VENV}/python ${ROOT_DIR}/manage.py migrate
+	${VENV}/python ${ROOT_DIR}/manage.py collectstatic --no-input
 	@echo "Installation is complete. Attempting to restarting the service..."
 	@echo "If prompt, please enter password."
 	systemctl restart blog.service
