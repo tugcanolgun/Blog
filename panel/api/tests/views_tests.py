@@ -93,7 +93,7 @@ class TestContentEndpoint:
         )
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
-        assert response.content == b'["Category does not exist"]'
+        assert response.content == b'{"detail":"Category does not exist"}'
 
     def test_patch_partially_updates_content(self, user_client: Client):
         initial_content: Content = ContentFactory(
@@ -201,7 +201,10 @@ class TestCategoryEndpoint:
         )
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST, response.content
-        assert response.content == b'["UNIQUE constraint failed: panel_category.name"]'
+        assert (
+            response.content
+            == b'{"detail":"UNIQUE constraint failed: panel_category.name"}'
+        )
 
     def test_patch_partially_updates_category(self, user_client: Client):
         category: Category = CategoryFactory()
@@ -231,6 +234,20 @@ class TestCategoryEndpoint:
 
         assert response.status_code == status.HTTP_204_NO_CONTENT, response.content
         assert Category.objects.count() == 0
+
+    def test_delete_rejects_if_contents_exist_with_category(self, user_client: Client):
+        category: Category = CategoryFactory()
+        ContentFactory(category=category)
+
+        response = user_client.delete(
+            reverse("panel:category_api", kwargs={"name": category.name}),
+        )
+
+        assert response.status_code == status.HTTP_400_BAD_REQUEST, response.content
+        assert (
+            response.content
+            == b'{"detail":"There are Contents with this category. Delete them first"}'
+        )
 
 
 @pytest.mark.usefixtures("db")

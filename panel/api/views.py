@@ -7,6 +7,7 @@ from panel.api.serializers import (
     CategorySerializer,
     StaticSerializer,
 )
+from panel.exceptions import IllegalOperation
 
 
 class ContentList(
@@ -55,6 +56,11 @@ class CategoryList(
         return self.partial_update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
+        if "name" in kwargs:
+            if Content.objects.filter(category__name=kwargs["name"]).exists():
+                raise IllegalOperation(
+                    "There are Contents with this category. Delete them first"
+                )
         return self.destroy(request, *args, **kwargs)
 
 
