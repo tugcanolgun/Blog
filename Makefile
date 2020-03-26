@@ -71,6 +71,9 @@ deploy:
 	pip install --upgrade pip
 	@echo "Installing the dependencies..."
 	pip install -r ${ROOT_DIR}/requirements/prod.txt
+	@echo "Requirements installation is complete."
+	@echo "Attempting to migrate database..."
+	${VENV}/python ${ROOT_DIR}/manage.py migrate
 	@echo "Installation is complete. Attempting to restarting the service..."
 	@echo "If prompt, please enter password."
 	systemctl restart blog.service
