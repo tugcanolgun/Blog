@@ -19,3 +19,9 @@ LOGGING = {
         },
     },
 }
+
+INSTALLED_APPS += [
+    "django_extensions",
+]
+
+SHELL_PLUS = "ipython"
