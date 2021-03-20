@@ -1,7 +1,6 @@
-import uuid
 import random
 import string
-import datetime
+import uuid
 
 from django.db import models
 from django.template.defaultfilters import slugify
@@ -86,11 +85,3 @@ class Content(models.Model):
 
     def __str__(self):
         return self.title
-
-    @property
-    def is_published_today(self):
-        return datetime.date.today == self.created_at
-
-    @property
-    def is_updated(self):
-        return self.created_at.date() == self.updated_at.date()
