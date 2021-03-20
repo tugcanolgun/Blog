@@ -15,7 +15,9 @@ import random
 from pathlib import Path
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import dotenv
+
+BASE_DIR: str = Path(__file__).resolve().parent.parent.parent
 
 # Used for static files and .sock file for gunicorn. Do not use space or special characters
 APP_NAME: str = "tugcan"
@@ -26,13 +28,16 @@ DISPLAY_NAME: str = "Tugcan Olgun"
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
-SECRET_FOLDER = Path() / "venv"
-SECRET_FILE = SECRET_FOLDER / ".secret"
-if SECRET_FILE.is_file():
-    with open(SECRET_FILE, "r") as f:
-        SECRET_KEY = f.read()
-else:
-    SECRET_KEY = "".join(
+ENV_FILE_NAME: str = os.environ.get("ENV_FILE", ".env")
+
+assert (BASE_DIR / ENV_FILE_NAME).is_file() is True
+DOTENV: str = str(BASE_DIR / ENV_FILE_NAME)
+dotenv.load_dotenv(DOTENV)
+
+if os.environ["SECRET_KEY"] in {"", None}:
+    import random
+
+    secret = "".join(
         [
             random.SystemRandom().choice(
                 "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)"
@@ -40,15 +45,14 @@ else:
             for i in range(50)
         ]
     )
-    SECRET_FOLDER.mkdir(exist_ok=True)
-    with open(SECRET_FILE, "w") as f:
-        f.write(SECRET_KEY)
+    dotenv.set_key(DOTENV, "SECRET_KEY", secret)
+    os.environ["SECRET_KEY"] = secret
 
-# SECURITY WARNING: don't run with debug turned on in production!
+SECRET_KEY: str = os.environ["SECRET_KEY"]
 DEBUG: bool = False
 
 # Change the access domain here
-ALLOWED_HOSTS: list = ["tugcan.net", "www.tugcan.net", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS: list = os.environ.get("ALLOWED_HOSTS", "").split(",")
 
 LOGOUT_REDIRECT_URL = "/panel"
 
@@ -157,26 +161,5 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "static/"),)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
-
-
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "logstash": {
-            "level": "INFO",
-            "class": "tugcan.middleware.CustomTCPLogstashHandler",
-            "host": "tugcan.org",
-            "port": 5100,
-            "version": 1,
-            "message_type": "django",
-            "fqdn": False,
-            "tags": ["tugcan.net"],
-        },
-    },
-    "loggers": {
-        "": {"handlers": ["logstash"], "level": "DEBUG"},
-    },
-}
 
 TEST_RUNNER = "tugcan.runner.PytestTestRunner"
