@@ -11,6 +11,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.DeleteModel(name="ContentTags",),
-        migrations.DeleteModel(name="Tags",),
+        migrations.DeleteModel(
+            name="ContentTags",
+        ),
+        migrations.DeleteModel(
+            name="Tags",
+        ),
     ]

@@ -174,7 +174,9 @@ LOGGING = {
             "tags": ["tugcan.net"],
         },
     },
-    "loggers": {"": {"handlers": ["logstash"], "level": "DEBUG"},},
+    "loggers": {
+        "": {"handlers": ["logstash"], "level": "DEBUG"},
+    },
 }
 
 TEST_RUNNER = "tugcan.runner.PytestTestRunner"

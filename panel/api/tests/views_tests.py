@@ -35,7 +35,9 @@ class TestContentEndpoint:
             "is_static_url",
         }
 
-        response = user_client.get(reverse("panel:content_api"),)
+        response = user_client.get(
+            reverse("panel:content_api"),
+        )
 
         assert response.status_code == status.HTTP_200_OK
         assert len(response.json()) == 1
@@ -50,7 +52,9 @@ class TestContentEndpoint:
         data: Dict[str, Any] = {"title": "Title1", "body": "Body text"}
 
         response = user_client.post(
-            reverse("panel:content_api"), data=data, content_type="application/json",
+            reverse("panel:content_api"),
+            data=data,
+            content_type="application/json",
         )
 
         assert response.status_code == status.HTTP_201_CREATED, response.content
@@ -74,7 +78,9 @@ class TestContentEndpoint:
         }
 
         response = user_client.post(
-            reverse("panel:content_api"), data=data, content_type="application/json",
+            reverse("panel:content_api"),
+            data=data,
+            content_type="application/json",
         )
 
         assert response.status_code == status.HTTP_201_CREATED, response.content
@@ -89,7 +95,9 @@ class TestContentEndpoint:
         }
 
         response = user_client.post(
-            reverse("panel:content_api"), data=data, content_type="application/json",
+            reverse("panel:content_api"),
+            data=data,
+            content_type="application/json",
         )
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST
@@ -97,7 +105,10 @@ class TestContentEndpoint:
 
     def test_patch_partially_updates_content(self, user_client: Client):
         initial_content: Content = ContentFactory(
-            title="Title1", body="Text", published=False, is_static_url=False,
+            title="Title1",
+            body="Text",
+            published=False,
+            is_static_url=False,
         )
         data: Dict[str, Any] = {
             "title": "Title2",
@@ -159,7 +170,9 @@ class TestContentEndpoint:
 @pytest.mark.usefixtures("db")
 class TestCategoryEndpoint:
     def test_endpoint_rejects_unauthenticated_users(self, client: Client):
-        response = client.get(reverse("panel:category_api"),)
+        response = client.get(
+            reverse("panel:category_api"),
+        )
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
@@ -167,7 +180,9 @@ class TestCategoryEndpoint:
         CategoryFactory(name="Software")
         keys: Set[str] = {"name", "created_at", "slug", "is_static_url"}
 
-        response = user_client.get(reverse("panel:category_api"),)
+        response = user_client.get(
+            reverse("panel:category_api"),
+        )
 
         assert response.status_code == status.HTTP_200_OK
         assert len(response.json()) == 1
@@ -180,7 +195,9 @@ class TestCategoryEndpoint:
         data: Dict[str, Any] = {"name": "New Category"}
 
         response = user_client.post(
-            reverse("panel:category_api"), data=data, content_type="application/json",
+            reverse("panel:category_api"),
+            data=data,
+            content_type="application/json",
         )
 
         assert response.status_code == status.HTTP_201_CREATED, response.content
@@ -197,7 +214,9 @@ class TestCategoryEndpoint:
         data: Dict[str, Any] = {"name": category.name}
 
         response = user_client.post(
-            reverse("panel:category_api"), data=data, content_type="application/json",
+            reverse("panel:category_api"),
+            data=data,
+            content_type="application/json",
         )
 
         assert response.status_code == status.HTTP_400_BAD_REQUEST, response.content
@@ -253,7 +272,9 @@ class TestCategoryEndpoint:
 @pytest.mark.usefixtures("db")
 class TestStaticEndpoint:
     def test_endpoint_rejects_unauthenticated_users(self, client: Client):
-        response = client.get(reverse("panel:static_api"),)
+        response = client.get(
+            reverse("panel:static_api"),
+        )
 
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
@@ -269,7 +290,9 @@ class TestStaticEndpoint:
             "is_static_url",
         }
 
-        response = user_client.get(reverse("panel:static_api"),)
+        response = user_client.get(
+            reverse("panel:static_api"),
+        )
 
         assert response.status_code == status.HTTP_200_OK
         assert len(response.json()) == 1
@@ -283,7 +306,9 @@ class TestStaticEndpoint:
         data: Dict[str, Any] = {"title": "Title1", "body": "Body text"}
 
         response = user_client.post(
-            reverse("panel:static_api"), data=data, content_type="application/json",
+            reverse("panel:static_api"),
+            data=data,
+            content_type="application/json",
         )
 
         assert response.status_code == status.HTTP_201_CREATED, response.content
@@ -298,7 +323,9 @@ class TestStaticEndpoint:
 
     def test_patch_partially_updates_static(self, user_client: Client):
         initial_static: Static = StaticFactory(
-            title="Title1", body="Text", is_static_url=False,
+            title="Title1",
+            body="Text",
+            is_static_url=False,
         )
         data: Dict[str, Any] = {
             "title": "Title2",

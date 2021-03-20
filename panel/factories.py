@@ -5,14 +5,14 @@ from django.contrib.auth.models import User
 from panel.models import Category, Static, Content
 
 
-class CategoryFactory(factory.DjangoModelFactory):
+class CategoryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Category
 
     name = "Software"
 
 
-class StaticFactory(factory.DjangoModelFactory):
+class StaticFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Static
 
@@ -20,7 +20,7 @@ class StaticFactory(factory.DjangoModelFactory):
     created_at = factory.LazyFunction(timezone.now)
 
 
-class ContentFactory(factory.DjangoModelFactory):
+class ContentFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Content
 
@@ -28,7 +28,7 @@ class ContentFactory(factory.DjangoModelFactory):
     created_at = factory.LazyFunction(timezone.now)
 
 
-class UserFactory(factory.DjangoModelFactory):
+class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 

@@ -43,7 +43,9 @@ class ContentSerializer(serializers.Serializer):
     title = serializers.CharField(required=True, allow_blank=False, max_length=50)
     body = serializers.CharField(required=False)
     published = serializers.BooleanField(required=False, default=False)
-    category = CategorySerializer(required=False,)
+    category = CategorySerializer(
+        required=False,
+    )
     created_at = serializers.DateTimeField(required=False, default=timezone.now())
     updated_at = serializers.DateTimeField(required=False, read_only=True)
     slug = serializers.SlugField(required=False, default=uuid.uuid4)
@@ -60,7 +62,7 @@ class ContentSerializer(serializers.Serializer):
             if category is not None:
                 validated_data["category"] = category
             else:
-                raise ValidationError(f"Category does not exist")
+                raise ValidationError("Category does not exist")
 
         try:
             return Content.objects.create(**validated_data)
@@ -82,7 +84,7 @@ class ContentSerializer(serializers.Serializer):
             if category is not None:
                 instance.category = category
             else:
-                raise serializers.ValidationError(f"Category does not exist")
+                raise serializers.ValidationError("Category does not exist")
 
         instance.created_at = validated_data.get("created_at", instance.created_at)
         instance.slug = validated_data.get("slug", instance.slug)

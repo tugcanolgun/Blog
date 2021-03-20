@@ -118,12 +118,12 @@ class TestAuthorized:
         assert response.url == "/"
 
     def test_statics(self, user_client: Client):
-        response = user_client.get(f"/panel/statics")
+        response = user_client.get("/panel/statics")
 
         assert response.status_code == 200
 
     def test_static_create(self, user_client: Client):
-        response = user_client.get(f"/panel/static/create")
+        response = user_client.get("/panel/static/create")
 
         assert response.status_code == 302
         assert "/panel/static/edit/" in response.url
@@ -146,7 +146,7 @@ class TestAuthorized:
         assert response.url == "/"
 
     def test_category_add(self, user_client: Client) -> None:
-        response = user_client.get(f"/panel/category/add")
+        response = user_client.get("/panel/category/add")
 
         assert response.status_code == 302
         assert response.url == "/"
@@ -191,16 +191,16 @@ class TestAuthorized:
 @pytest.mark.parametrize(
     "url",
     [
-        f"/panel/posts",
-        f"/panel/post/create",
+        "/panel/posts",
+        "/panel/post/create",
         f"/panel/post/create/{uuid4()}",
         f"/panel/post/edit/{uuid4()}",
         f"/panel/post/delete/{uuid4()}",
-        f"/panel/statics",
-        f"/panel/static/create",
+        "/panel/statics",
+        "/panel/static/create",
         f"/panel/static/edit/{uuid4()}",
         f"/panel/static/delete/{uuid4()}",
-        f"/panel/category/add",
+        "/panel/category/add",
         f"/panel/category/delete/{uuid4()}",
         f"/panel/category/{uuid4()}",
     ],
