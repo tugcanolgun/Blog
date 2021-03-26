@@ -43,7 +43,12 @@ var quill = new Quill('#editor', {
     formula: true,
     syntax: true,
     modules: {
-        toolbar: toolbarOptions
+        toolbar: {
+            container: toolbarOptions,
+            handlers: {
+                image: imageHandler
+            }
+        }
     }
 });
 
@@ -57,3 +62,11 @@ quill.on('text-change', function (v) {
     // body.value = htmlContent;
     // console.log(htmlContent);
 });
+
+function imageHandler() {
+    var range = this.quill.getSelection();
+    var value = prompt('please copy paste the image url here.');
+    if(value){
+        this.quill.insertEmbed(range.index, 'image', value, Quill.sources.USER);
+    }
+}
